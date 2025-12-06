@@ -8,13 +8,14 @@ Backend API pour l'application Oasis, développé avec Spring Boot 4.0 et Kotlin
 - **Framework** : Spring Boot 4.0
 - **Base de données** : PostgreSQL
 - **Build tool** : Maven
-- **Java** : 17+
+- **Java** : 24+
+- **Conteneurisation** : Docker
 
 ## Prérequis
 
 Avant de commencer, assure-toi d'avoir installé :
 
-- [JDK 17+](https://adoptium.net/)
+- [JDK 24+](https://adoptium.net/)
 - [Maven](https://maven.apache.org/) (ou utilise le wrapper `./mvnw`)
 - [Docker](https://www.docker.com/) et Docker Compose
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/) (recommandé)
@@ -99,6 +100,8 @@ oasis-api/
 │       │       └── OasisApiApplicationTests.kt
 │       └── resources/
 │           └── application-test.yml
+├── Dockerfile
+├── .dockerignore
 ├── docker-compose.yml
 ├── pom.xml
 └── README.md
@@ -135,13 +138,47 @@ L'application peut être configurée via les variables d'environnement suivantes
 
 ## Déploiement
 
-L'application est configurée pour un déploiement automatique sur [Render](https://render.com/).
+L'application est déployée automatiquement sur [Render](https://render.com/) via Docker.
+
+### Déploiement automatique
+
+Chaque push sur la branche `main` déclenche automatiquement un nouveau déploiement sur Render.
+
+### URL de production
+```
+https://oasis-api-nujr.onrender.com
+```
 
 ### Base de données de production
 
-- **Host** : dpg-d4q3vak9c44c73b62g60-a.frankfurt-postgres.render.com
-- **Database** : oasisdb_bph7
-- **Region** : Frankfurt (Europe)
+| Paramètre | Valeur |
+|-----------|--------|
+| Host | dpg-d4q3vak9c44c73b62g60-a.frankfurt-postgres.render.com |
+| Port | 5432 |
+| Database | oasisdb_bph7 |
+| Region | Frankfurt (Europe) |
+
+### Docker
+
+Le projet utilise un Dockerfile multi-stage pour le déploiement :
+
+1. **Build stage** : Compile l'application avec Maven et Java 24
+2. **Run stage** : Exécute l'application avec le JRE Java 24
+
+Pour construire et lancer l'image Docker localement :
+```bash
+# Construire l'image
+docker build -t oasis-api .
+
+# Lancer le conteneur
+docker run -p 8080:8080 \
+  -e DB_HOST=host.docker.internal \
+  -e DB_PORT=5432 \
+  -e DB_NAME=oasisdb_bph7 \
+  -e DB_USER=oasisdbuser \
+  -e DB_PASSWORD=oasisdbpassword \
+  oasis-api
+```
 
 ## Contribuer
 
