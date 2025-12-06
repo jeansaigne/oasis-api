@@ -6,7 +6,7 @@ spring:
     name: oasis-api
 
   datasource:
-    url: ${DB_HOST:jdbc:postgresql://localhost:5432/oasisdb_bph7}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:oasisdb_bph7}
     username: ${DB_USER:oasisdbuser}
     password: ${DB_PASSWORD:oasisdbpassword}
     driver-class-name: org.postgresql.Driver
