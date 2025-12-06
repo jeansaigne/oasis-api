@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: oasis-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: oasisdb_bph7
+      POSTGRES_USER: oasisdbuser
+      POSTGRES_PASSWORD: oasisdbpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - oasis_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  oasis_postgres_data:
