@@ -29,9 +29,9 @@ docker build -t oasis-api .
 
 ## Architecture
 
-This is a Spring Boot 4.0 REST API written in Kotlin for managing board games. It follows a standard layered architecture:
+This is a Spring Boot 4.0 REST API written in Kotlin serving as the backend for the Oasis platform — a general-purpose application platform (not limited to games). It follows a standard layered architecture:
 
-- **Controller** (`controller/`): REST endpoints with OpenAPI/Swagger annotations. All game endpoints are under `/api/games`.
+- **Controller** (`controller/`): REST endpoints with OpenAPI/Swagger annotations. Game endpoints are under `/api/games` as one of the platform's applications.
 - **Service** (`service/`): Business logic with `@Transactional` support.
 - **Repository** (`repository/`): Spring Data JPA repositories extending `JpaRepository`.
 - **Entity** (`entity/`): JPA entities mapped to PostgreSQL tables.

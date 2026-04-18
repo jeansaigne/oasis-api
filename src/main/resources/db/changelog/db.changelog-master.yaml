@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - include:
+      file: 001-create-users.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 002-create-verification-tokens.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 003-create-refresh-tokens.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 004-create-password-reset-tokens.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 005-create-games.yaml
+      relativeToChangelogFile: true
+

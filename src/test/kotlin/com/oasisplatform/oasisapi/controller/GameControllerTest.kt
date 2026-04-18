@@ -3,11 +3,13 @@ package com.oasisplatform.oasisapi.controller
 import com.oasisplatform.oasisapi.dto.GameRequest
 import com.oasisplatform.oasisapi.entity.Game
 import com.oasisplatform.oasisapi.repository.GameRepository
+import com.oasisplatform.oasisapi.support.TestcontainersConfig
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
@@ -17,8 +19,9 @@ import tools.jackson.databind.json.JsonMapper
 import tools.jackson.module.kotlin.KotlinModule
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
+@Import(TestcontainersConfig::class)
 class GameControllerTest {
 
     @Autowired

@@ -12,5 +12,13 @@ services:
     volumes:
       - oasis_postgres_data:/var/lib/postgresql/data
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: oasis-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP — c'est là que le backend envoie
+      - "8025:8025"   # UI web — http://localhost:8025
+
 volumes:
   oasis_postgres_data:

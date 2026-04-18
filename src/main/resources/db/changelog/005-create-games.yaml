@@ -1,0 +1,75 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-games
+      author: oasis
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: games
+      changes:
+        - createTable:
+            tableName: games
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: rules
+                  type: TEXT
+              - column:
+                  name: min_players
+                  type: INT
+              - column:
+                  name: max_players
+                  type: INT
+              - column:
+                  name: min_age
+                  type: INT
+              - column:
+                  name: duration_minutes
+                  type: INT
+              - column:
+                  name: author
+                  type: VARCHAR(255)
+              - column:
+                  name: release_year
+                  type: INT
+              - column:
+                  name: origin
+                  type: VARCHAR(255)
+              - column:
+                  name: image_url
+                  type: VARCHAR(1024)
+              - column:
+                  name: rating
+                  type: DOUBLE
+              - column:
+                  name: is_favorite
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+

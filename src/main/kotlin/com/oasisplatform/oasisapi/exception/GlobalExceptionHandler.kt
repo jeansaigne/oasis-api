@@ -1,5 +1,9 @@
 package com.oasisplatform.oasisapi.exception
 
+import com.oasisplatform.oasisapi.exception.auth.EmailNotVerifiedException
+import com.oasisplatform.oasisapi.exception.auth.InvalidCredentialsException
+import com.oasisplatform.oasisapi.exception.auth.InvalidTokenException
+import com.oasisplatform.oasisapi.exception.auth.UserAlreadyExistsException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -39,6 +43,47 @@ class GlobalExceptionHandler {
         )
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error)
     }
+
+    @ExceptionHandler(UserAlreadyExistsException::class)
+    fun handleUserExists(ex: UserAlreadyExistsException): ResponseEntity<ErrorResponse> =
+        ResponseEntity.status(HttpStatus.CONFLICT).body(
+            ErrorResponse(
+                status = HttpStatus.CONFLICT.value(),
+                error = "Conflict",
+                message = ex.message ?: "Conflit"
+            )
+        )
+
+    @ExceptionHandler(InvalidCredentialsException::class)
+    fun handleInvalidCredentials(ex: InvalidCredentialsException): ResponseEntity<ErrorResponse> =
+        ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+            ErrorResponse(
+                status = HttpStatus.UNAUTHORIZED.value(),
+                error = "Unauthorized",
+                message = ex.message ?: "Identifiants invalides"
+            )
+        )
+
+    @ExceptionHandler(EmailNotVerifiedException::class)
+    fun handleEmailNotVerified(ex: EmailNotVerifiedException): ResponseEntity<ErrorResponse> =
+        ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+            ErrorResponse(
+                status = HttpStatus.FORBIDDEN.value(),
+                error = "Forbidden",
+                message = ex.message ?: "Email non confirmé",
+                details = listOf("EMAIL_NOT_VERIFIED")
+            )
+        )
+
+    @ExceptionHandler(InvalidTokenException::class)
+    fun handleInvalidToken(ex: InvalidTokenException): ResponseEntity<ErrorResponse> =
+        ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+            ErrorResponse(
+                status = HttpStatus.BAD_REQUEST.value(),
+                error = "Bad Request",
+                message = ex.message ?: "Token invalide"
+            )
+        )
 
     @ExceptionHandler(Exception::class)
     fun handleGenericException(ex: Exception): ResponseEntity<ErrorResponse> {
