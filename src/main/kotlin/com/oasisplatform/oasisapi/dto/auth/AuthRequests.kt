@@ -39,6 +39,11 @@ data class ForgotPasswordRequest(
     val email: String
 )
 
+data class ResendVerificationRequest(
+    @field:NotBlank
+    val identifier: String
+)
+
 data class ResetPasswordRequest(
     @field:NotBlank
     val token: String,

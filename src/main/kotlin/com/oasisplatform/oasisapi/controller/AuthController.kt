@@ -4,6 +4,7 @@ import com.oasisplatform.oasisapi.dto.auth.ForgotPasswordRequest
 import com.oasisplatform.oasisapi.dto.auth.LoginRequest
 import com.oasisplatform.oasisapi.dto.auth.MessageResponse
 import com.oasisplatform.oasisapi.dto.auth.RegisterRequest
+import com.oasisplatform.oasisapi.dto.auth.ResendVerificationRequest
 import com.oasisplatform.oasisapi.dto.auth.ResetPasswordRequest
 import com.oasisplatform.oasisapi.dto.auth.UserResponse
 import com.oasisplatform.oasisapi.exception.auth.InvalidCredentialsException
@@ -49,6 +50,17 @@ class AuthController(
                 .location(URI.create("$frontendBaseUrl/login?verified=false"))
                 .build()
         }
+    }
+
+    @PostMapping("/resend-verification")
+    @Operation(summary = "Renvoie un email de confirmation — retourne toujours 200")
+    fun resendVerification(
+        @Valid @RequestBody request: ResendVerificationRequest
+    ): ResponseEntity<MessageResponse> {
+        authService.resendVerification(request.identifier)
+        return ResponseEntity.ok(
+            MessageResponse("Si ce compte existe et n'est pas encore confirmé, un nouvel email vous a été envoyé.")
+        )
     }
 
     @PostMapping("/login")

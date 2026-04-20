@@ -85,6 +85,32 @@ class AuthService(
         return UserResponse.from(user)
     }
 
+    /**
+     * Renvoie un email de confirmation si l'utilisateur existe et n'est pas encore vérifié.
+     * Ne divulgue jamais l'existence du compte : la réponse est toujours la même.
+     * L'identifiant accepté est l'email ou le nom d'utilisateur.
+     */
+    fun resendVerification(identifier: String) {
+        val user = userRepository
+            .findByEmailIgnoreCaseOrUsernameIgnoreCase(identifier, identifier)
+            .orElse(null) ?: return
+        if (user.emailVerified || !user.enabled) return
+
+        // Invalide les tokens précédents pour éviter l'accumulation
+        verificationRepository.markAllAsUsedForUser(user)
+
+        val token = generateUrlSafeToken()
+        verificationRepository.save(
+            EmailVerificationTokenEntity(
+                user = user,
+                token = token,
+                expiresAt = LocalDateTime.now().plusHours(24)
+            )
+        )
+        mailCaptor?.capture(user.email, token)
+        mailService.sendVerificationEmail(user, token)
+    }
+
     fun verifyEmail(token: String) {
         val entity = verificationRepository.findByToken(token)
             .orElseThrow { InvalidTokenException("Token de confirmation invalide") }
