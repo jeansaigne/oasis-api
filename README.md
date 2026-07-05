@@ -120,6 +120,9 @@ Les tests utilisent une base de données H2 en mémoire.
 | Méthode | Endpoint | Description |
 |---------|----------|-------------|
 | GET | `/hello` | Endpoint de test retournant "Hello World" |
+| POST | `/api/camera/events` | Ingestion d'un événement de détection caméra (auth par header `X-Api-Key`) |
+| GET | `/api/camera/events` | Derniers événements de détection (`?cameraId=…&limit=…`), authentifié |
+| GET | `/api/camera/events/stream` | Flux SSE temps réel des événements de détection, authentifié |
 
 ## Configuration
 
@@ -130,6 +133,7 @@ L'application peut être configurée via les variables d'environnement suivantes
 | Variable | Description | Valeur par défaut |
 |----------|-------------|-------------------|
 | PORT | Port du serveur | 8080 |
+| CAMERA_API_KEY | Clé API attendue dans le header `X-Api-Key` pour l'ingestion caméra | (vide = ingestion désactivée) |
 | DB_HOST | Hôte de la base de données | localhost |
 | DB_PORT | Port de la base de données | 5432 |
 | DB_NAME | Nom de la base de données | oasisdb_bph7 |

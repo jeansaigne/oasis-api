@@ -1,6 +1,7 @@
 package com.oasisplatform.oasisapi.exception
 
 import com.oasisplatform.oasisapi.exception.auth.EmailNotVerifiedException
+import com.oasisplatform.oasisapi.exception.camera.InvalidCameraApiKeyException
 import com.oasisplatform.oasisapi.exception.auth.InvalidCredentialsException
 import com.oasisplatform.oasisapi.exception.auth.InvalidTokenException
 import com.oasisplatform.oasisapi.exception.auth.UserAlreadyExistsException
@@ -82,6 +83,16 @@ class GlobalExceptionHandler {
                 status = HttpStatus.BAD_REQUEST.value(),
                 error = "Bad Request",
                 message = ex.message ?: "Token invalide"
+            )
+        )
+
+    @ExceptionHandler(InvalidCameraApiKeyException::class)
+    fun handleInvalidCameraApiKey(ex: InvalidCameraApiKeyException): ResponseEntity<ErrorResponse> =
+        ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+            ErrorResponse(
+                status = HttpStatus.UNAUTHORIZED.value(),
+                error = "Unauthorized",
+                message = ex.message ?: "Clé API caméra invalide"
             )
         )
 

@@ -37,6 +37,8 @@ spring:
             enable: ${MAIL_SMTP_STARTTLS:false}
 
 app:
+  camera:
+    api-key: ${CAMERA_API_KEY:}
   auth:
     jwt:
       secret: ${JWT_SECRET:change-me-change-me-change-me-change-me-change-me-64bytes!!}

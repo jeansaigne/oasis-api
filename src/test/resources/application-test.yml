@@ -26,6 +26,8 @@ spring:
     port: 1025
 
 app:
+  camera:
+    api-key: test-camera-api-key
   auth:
     jwt:
       secret: test-secret-test-secret-test-secret-test-secret-test-secret-12345
